@@ -1,36 +1,15 @@
-import { TypedUseSelectorHook, useSelector, useDispatch } from 'react-redux';
 import './App.css';
 import TaskList from './components/TaskList';
-import { RootState } from './store';
 import { useState } from 'react';
-import { addTaskAction, removeTaskAction } from './store/actions';
-import { v4 } from 'uuid';
+import useTasks from './hooks/tasks';
 
 
 
 const App = () => {
-  const useAppSelector: TypedUseSelectorHook<RootState> = useSelector;
-  const dispatch = useDispatch();
-  const tasks = useAppSelector((state: any) => state.tasks);
-
   const [title, setTitle] = useState<string>('');
   const [description, setDescription] = useState<string>('');
 
-const createNewTask = (title: string, description: string) => {
-  if (!title.trim()) return;
-
-  const newTask = {
-    id: v4(),
-    title,
-    description,
-    completed: false,
-  };
-
-  dispatch(addTaskAction({ task: newTask }));
-
-  setTitle('');
-  setDescription('');
-};
+  const {tasks, createNewTask } = useTasks({title, description});
 
   return (
     <div className="App">
