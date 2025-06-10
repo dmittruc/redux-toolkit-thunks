@@ -1,26 +1,23 @@
-import React from 'react';
-import logo from './logo.svg';
+import { TypedUseSelectorHook, useSelector } from 'react-redux';
 import './App.css';
+import TaskList from './components/TaskList';
+import { RootState } from './store';
 
-function App() {
+const App = () => {
+  const useAppSelector: TypedUseSelectorHook<RootState> = useSelector;
+  const tasks = useAppSelector((state: any) => state.tasks);
+
+  // const [title, setTitle] = useState<string>('');
+  // const [description, setDescription] = useState<string>('');
+
+  // const createNewTask = (title, description) => {}
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      {/* <button onClick={() => createNewTask(title, description)}>Create Task</button> */}
+      <TaskList tasks={tasks} />
     </div>
   );
-}
+} 
 
 export default App;
