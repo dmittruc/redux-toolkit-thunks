@@ -1,7 +1,7 @@
 import './App.css';
 import TaskList from './components/TaskList';
-import { useState } from 'react';
-import useTasks from './hooks/tasks';
+import { useEffect, useState } from 'react';
+import useTasks from './hooks/useTasks';
 
 
 
@@ -9,8 +9,19 @@ const App = () => {
   const [title, setTitle] = useState<string>('');
   const [description, setDescription] = useState<string>('');
 
-  const {tasks, createNewTask } = useTasks({title, description});
+  useEffect(() => {
+    fetchTasks()
+  }, [])
 
+  const {tasks, loading, error, createNewTask, fetchTasks } = useTasks();
+  console.log('loading',loading)
+  if (loading){
+    return <div>Loading...</div>; 
+  } 
+ 
+  if (error) {
+    return <div>Error</div>;
+  }
   return (
     <div className="App">
       <input

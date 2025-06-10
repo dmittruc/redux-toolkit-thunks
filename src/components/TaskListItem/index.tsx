@@ -1,5 +1,5 @@
 import { ITask } from "../../interfaces"
-import useTasks from "../../hooks/tasks";
+import useTasks from "../../hooks/useTasks";
 
 interface IProps {
     task: ITask
@@ -7,7 +7,7 @@ interface IProps {
 
 const TaskListItem = ({task}: IProps) => {
 
-    const {deleteTask} = useTasks(task);
+    const {deleteTask} = useTasks();
     
     return (
         <div key={task.id}>

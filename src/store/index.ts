@@ -1,8 +1,8 @@
 import { configureStore } from "@reduxjs/toolkit";
-import tasksReducer from "./reducer";
+import rootReducer from "./reducers";
 
 const store = configureStore({
-    reducer: tasksReducer,
+    reducer: rootReducer,
 })
 
 export type TRootState = ReturnType<typeof store.getState>

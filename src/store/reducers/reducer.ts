@@ -1,16 +1,12 @@
 import { createReducer } from "@reduxjs/toolkit";
-import { ITasksReducerState } from "../interfaces/reducers";
-import { addTaskAction, removeTaskAction, setTasksAction } from "./actions";
-import { ITask } from "../interfaces";
-
-const tasks = [
-    { id: '1', title: 'Task 1', description: 'Description 1', completed: false },
-    { id: '2', title: 'Task 2', description: 'Description 2', completed: true },
-    { id: '3', title: 'Task 3', description: 'Description 3', completed: false },
-  ]
+import { ITask } from "../../interfaces";
+import { ITasksReducerState } from "../../interfaces/reducers";
+import { addTaskAction, removeTaskAction, setErrorAction, setLoadingAction, setTasksAction } from "../actions";
 
 const initialState: ITasksReducerState = {
-  tasks: tasks,
+  tasks: [],
+  loading: false,
+  error: null,
 };
 
 const tasksReducer = createReducer<ITasksReducerState>(initialState, builder =>
@@ -21,13 +17,21 @@ const tasksReducer = createReducer<ITasksReducerState>(initialState, builder =>
     }))
     .addCase(addTaskAction, (store, { payload: { task } }) => ({
       ...store,
-      tasks: [...store.tasks, task],
+      tasks: [task, ...store.tasks],
     }))
     .addCase(removeTaskAction, (store, { payload: { task } }) => ({
       ...store,
       tasks: store.tasks.filter(
         (currentTask: ITask) => currentTask.id !== task.id,
       ),
+    }))
+    .addCase(setErrorAction, (store, { payload: { error } }) => ({
+      ...store,
+      error: error,
+    }))
+    .addCase(setLoadingAction, (store, { payload: { loading } }) => ({
+      ...store,
+      loading: loading,
     })),
 );
 
