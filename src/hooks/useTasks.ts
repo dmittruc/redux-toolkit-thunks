@@ -1,7 +1,7 @@
 import { useDispatch, useSelector } from "react-redux";
 import { TRootState, TAppDispatch } from "../store";
 import { ITask } from "../interfaces";
-import { createTaskAsyncAction, fetchTasksAsyncAction, removeTaskAction } from "../store/actions";
+import { createTaskAsyncAction, deleteTasksAsyncAction, fetchTasksAsyncAction, removeTaskAction } from "../store/actions";
 
 const useTasks = () => {
     const dispatch = useDispatch<TAppDispatch>();
@@ -26,8 +26,8 @@ const useTasks = () => {
         dispatch(createTaskAsyncAction({title, description}));
     }
 
-    const deleteTask = (task: ITask) => {
-        dispatch(removeTaskAction({task}));
+    const deleteTask = (taskId: string) => {
+        dispatch(deleteTasksAsyncAction({taskId}));
     }
 
     return {

@@ -13,7 +13,7 @@ const TaskListItem = ({task}: IProps) => {
         <div key={task.id}>
             <h3>{task.title}</h3>
             <p>{task.description}</p>
-            <button onClick={() => deleteTask(task)}>Delete</button>
+            <button onClick={() => deleteTask(task.id)}>Delete</button>
         </div>
     )
 }

@@ -1,6 +1,7 @@
+import { TRootState } from ".";
 import { descriptionRegex, titleRegex } from "../constans";
 import { ITask } from "../interfaces";
-import { IAddTaskAction, ICreateTaskAsyncAction, IRemoveTaskAction, ISetErrorAction, ISetLoadingAction, ISetTasksAction } from "../interfaces/actions";
+import { IAddTaskAction, ICreateTaskAsyncAction, IDeleteTaskAsyncAction, IRemoveTaskAction, ISetErrorAction, ISetLoadingAction, ISetTasksAction } from "../interfaces/actions";
 import { createAction, createAsyncThunk } from "@reduxjs/toolkit";
 
 export const setTasksAction = createAction<ISetTasksAction>(
@@ -32,6 +33,30 @@ export const fetchTasksAsyncAction = createAsyncThunk(
       const tasks = await response.json();
       dispatch(setTasksAction({ tasks: tasks}))
       dispatch(setErrorAction({ error: undefined }));
+    } catch (error) {
+      dispatch(setErrorAction({ error: error }));
+      console.log('Error: tasks/fetchTasksAsyncAction', error);
+    } finally {
+      dispatch(setLoadingAction({ loading: false }));
+    }
+  }
+)
+
+export const deleteTasksAsyncAction = createAsyncThunk<void, IDeleteTaskAsyncAction, { state: TRootState }>(
+  'tasks/deleteTasksAsyncAction',
+  async ({ taskId }: IDeleteTaskAsyncAction, {getState, dispatch }) => {
+    try {
+      dispatch(setLoadingAction({ loading: true }));
+      await new Promise(resolve => setTimeout(resolve, 1500));
+      console.log('[deleteTasksAsyncAction] taskId:', taskId);
+
+      const state = getState();
+      const task = state.tasks.tasks.find((task: ITask) => task.id === taskId); 
+      if (!task) {
+        console.log('Task not found');
+        return;
+      }
+      dispatch(removeTaskAction({ taskId: taskId }));
     } catch (error) {
       dispatch(setErrorAction({ error: error }));
       console.log('Error: tasks/fetchTasksAsyncAction', error);

@@ -17,7 +17,11 @@ export interface IAddTaskAction {
 }
 
 export interface IRemoveTaskAction {
-  task: ITask;
+  taskId: string;
+}
+
+export interface IDeleteTaskAsyncAction {
+  taskId: string;
 }
 
 export interface ICreateTaskAsyncAction {

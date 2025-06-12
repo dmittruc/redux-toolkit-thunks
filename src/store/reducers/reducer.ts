@@ -19,10 +19,10 @@ const tasksReducer = createReducer<ITasksReducerState>(initialState, builder =>
       ...store,
       tasks: [task, ...store.tasks],
     }))
-    .addCase(removeTaskAction, (store, { payload: { task } }) => ({
+    .addCase(removeTaskAction, (store, { payload: { taskId } }) => ({
       ...store,
       tasks: store.tasks.filter(
-        (currentTask: ITask) => currentTask.id !== task.id,
+        (currentTask: ITask) => currentTask.id !== taskId,
       ),
     }))
     .addCase(setErrorAction, (store, { payload: { error } }) => ({
